@@ -22,7 +22,7 @@ if ($('.listSchoolYear').length > 0) {
 
 	getSchoolYear();
 
-	$('#addSY button').on('click', function(){
+	$('#addSY .submit').on('click', function(){
 		$.ajax({
 			url : server + 'schoolyear',
 			method: 'post',

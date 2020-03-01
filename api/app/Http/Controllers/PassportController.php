@@ -44,7 +44,10 @@ class PassportController extends Controller
  
         if (auth()->attempt($credentials)) {
             $token = auth()->user()->createToken('schoolSystem')->accessToken;
-            return response()->json(['success' => true, 'token' => $token], 200);
+            $user_role = auth()->user()->role;
+            // var_dump($user_role->role);
+            // die();
+            return response()->json(['success' => true, 'token' => $token, 'role' => $user_role], 200);
         } else {
             return response()->json(['success' => false, 'error' => 'Authentication failed'], 401);
         }
@@ -77,14 +80,14 @@ class PassportController extends Controller
 
             $temp_pass = Str::random(6);
             if (DB::table('users')->insert([
-                'first_name'    => $request->first_name,
-                'middle_name'   => $request->middle_name,
-                'last_name'     => $request->last_name,
-                'birthday'      => $request->birthday,
-                'gender'        => $request->gender,
-                'address'       => $request->address,
+                'first_name'    => $request->first_name != "" ? $request->first_name : '',
+                'middle_name'   => $request->middle_name != "" ? $request->middle_name : '',
+                'last_name'     => $request->last_name != "" ? $request->last_name : '',
+                'birthday'      => $request->birthday != "" ? $request->birthday : '',
+                'gender'        => $request->gender != "" ? $request->gender : 1,
+                'address'       => $request->address != "" ? $request->address : '',
                 'email'         => $request->email,
-                'role'          => $request->role,
+                'role'          => $request->role != "" ? $request->role : 3,
 
                 'picture'       => '',
 

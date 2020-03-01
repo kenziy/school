@@ -28,7 +28,8 @@ class SubjectController extends Controller
     public function create(Request $request) {
 
     	$validation = Validator::make($request->json()->all(), [
-            'title' => 'required|min:3',
+            'title' => 'required',
+            'code' => 'required',
         ]);
 
 		$return = [];
@@ -37,9 +38,9 @@ class SubjectController extends Controller
 			return response()->json(['success' => false, 'error' => $errors->toJson()], 200);
         } else {
         	if (DB::table('subjects')->insert([
-        		'code' 			=> is_null($request->code) ? '' : $request->code,
+        		'code' 			=> $request->code,
         		'title' 		=> $request->title,
-        		'description' 	=> is_null($request->description) ? '' : $request->description
+        		'description' 	=> $request->description == "" ? '' : $request->description
         	])) {
         		return response()->json(['success' => true, 'msg' => 'Subject successfully added'], 200);
         	}

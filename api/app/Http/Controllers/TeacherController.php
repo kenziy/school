@@ -31,4 +31,23 @@ class TeacherController extends Controller
             }
         }
     }
+
+    public function dashboard(Request $request) {
+        $user = auth()->user();
+        $mySched = DB::table('teacher_assign as ta')
+                    ->select('sa.id as sy_id', 'sa.title as title', 'ta.*')
+                    ->join('school_years as sa', 'sa.id', '=', 'ta.schoolYear_id')
+                    ->where('ta.teacher_id', $user->id)
+                    ->get();
+        $data = [];
+        foreach ($mySched as $s) {
+            $data[] = [
+                'id'        => $s->sy_id,
+                'title'     => $s->title,
+                'subjects'  => count(json_decode($s->subjects)),
+                'rooms'     => count(json_decode($s->rooms)),
+            ];
+        }
+        return response()->json(['success' => true, 'msg' => 'Teacher successfully added'], 200);
+    }
 }

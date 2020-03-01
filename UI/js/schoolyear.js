@@ -20,8 +20,8 @@ if ($('.schoolYearPage').length > 0) {
 				$.each(data.teachers, function(i, e){
 					var html = '<tr class="tr-shadow">' +
 	                                '<td><a href="#">' + e.teachers_name + '</a></td>' +
-	                                '<td>0</td>'+
-	                                '<td>0</td>'+
+	                                '<td>' + e.subjects+ '</td>'+
+	                                '<td>' + e.rooms+ '</td>'+
 	                                '<td>0</td>'+
 	                            '</tr>'+
 	                            '<tr class="spacer"></tr>';

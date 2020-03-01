@@ -37,7 +37,7 @@ class SchoolYearController extends Controller
         } else {
         	if (DB::table('school_years')->insert([
         		'title' => $request->title,
-        		'description' => $request->description
+        		'description' => $request->description != "" ? $request->description : ''
         	])) {
         		return response()->json(['success' => true, 'msg' => 'School Year successfully added'], 200);
         	}
@@ -49,7 +49,7 @@ class SchoolYearController extends Controller
 
     	$data = DB::table('school_years')->where('id', $id)->first();
         $teachers = DB::table('teacher_assign AS ta')
-                    ->select('users.*')
+                    ->select('users.*', 'ta.subjects as subjects', 'ta.rooms as rooms')
                     ->where('ta.schoolYear_id', $id)
                     ->join('users', 'users.id', '=', 'ta.teacher_id')
                     ->get();
@@ -59,6 +59,8 @@ class SchoolYearController extends Controller
             $allTeach[] = [
                 'teacher_id' => $t->id,
                 'teachers_name' => $t->last_name .', '. $t->first_name . ' '. $t->middle_name,
+                'subjects' => count(json_decode($t->subjects)),
+                'rooms' => count(json_decode($t->rooms))
             ];
         }
     	return response()->json(['success' => true, 'data' => $data, 'teachers' => $allTeach], 200);

@@ -41,7 +41,12 @@ var baseURL = 'http://localhost:8081/';
 				success: function (data) {
 					if (data.success) {
 						localStorage.setItem('token', data.token);
-						window.location.href = baseURL + 'dashboard.php';
+
+						if (data.role == 1) {
+							window.location.href = baseURL + 'dashboard.php';
+						} else {
+							window.location.href = baseURL + 'teacher/dashboard.php';
+						}
 					} else {
 						$('.error').show();
 					}

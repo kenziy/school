@@ -16,7 +16,7 @@ Route::post('login', 'PassportController@login');
 Route::post('register', 'PassportController@register');
 
 
-Route::middleware('auth:api')->group(function () {
+Route::group(['middleware' => ['auth:api', 'IsAdmin']], function () {
     Route::get('user', 'PassportController@user');
     Route::post('user', 'PassportController@create');
     Route::get('user/all', 'PassportController@all');
@@ -36,5 +36,10 @@ Route::middleware('auth:api')->group(function () {
     Route::post('subject', 'SubjectController@create');
 
     // teacher
-    Route::post('teacher', 'TeacherController@get');
+    Route::post('teacher', 'TeacherController@create');
+
+    // Teacher dashboard
+    Route::prefix('teacher')->group(function(){
+        Route::get('dashboard', 'TeacherController@dashboard');
+    });
 });
