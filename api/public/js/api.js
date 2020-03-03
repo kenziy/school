@@ -27,6 +27,7 @@
 
 	if ($('.login').length > 0) {
 		$('#login').on('click', function(){
+			$('.loading').show();
 			$.ajax({
 				url : server + '/login',
 				method: 'post',
@@ -37,6 +38,7 @@
 					password : $('.password').val(),
 				}),
 				success: function (data) {
+					$('.loading').hide();
 					if (data.success) {
 						localStorage.setItem('token', data.token);
 

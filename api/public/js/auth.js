@@ -23,6 +23,7 @@ if ($('.listSchoolYear').length > 0) {
 	getSchoolYear();
 
 	$('#addSY .submit').on('click', function(){
+		$('.loading').show();
 		$.ajax({
 			url : server + '/schoolyear',
 			method: 'post',
@@ -36,6 +37,7 @@ if ($('.listSchoolYear').length > 0) {
 				description : $('#addSY .description').val()
 			}),
 			success: function (data) {
+				$('.loading').hide();
 				if (data.success) {
 					$('#addSY').modal('hide');
 					getSchoolYear();
@@ -52,7 +54,8 @@ if ($('.roomPage').length > 0) {
 
 	getRoom();
 
-	$('#addRoom button').on('click', function(){
+	$('#addRoom .submit').on('click', function(){
+		$('.loading').show();
 		$.ajax({
 			url : server + '/room',
 			method: 'post',
@@ -66,6 +69,7 @@ if ($('.roomPage').length > 0) {
 				description : $('#addRoom .description').val()
 			}),
 			success: function (data) {
+				$('.loading').hide();
 				if (data.success) {
 					$('#addRoom').modal('hide');
 					getRoom();
@@ -82,7 +86,8 @@ if ($('.subjectPage').length > 0) {
 
 	getSubject();
 
-	$('#addSubject button').on('click', function(){
+	$('#addSubject .submit').on('click', function(){
+		$('.loading').show();
 		$.ajax({
 			url : server + '/subject',
 			method: 'post',
@@ -97,6 +102,7 @@ if ($('.subjectPage').length > 0) {
 				description : $('#addSubject .description').val()
 			}),
 			success: function (data) {
+				$('.loading').hide();
 				if (data.success) {
 					$('#addSubject').modal('hide');
 					getSubject();
@@ -111,7 +117,8 @@ if ($('.subjectPage').length > 0) {
 
 if ($('.usersPage').length > 0) {
 	getUser();
-	$('#newUser button').on('click', function(){
+	$('#newUser .submit').on('click', function(){
+		$('.loading').show();
 		$.ajax({
 			url : server + '/user',
 			method: 'post',
@@ -131,6 +138,7 @@ if ($('.usersPage').length > 0) {
 				role : $('#newUser .roles').val()
 			}),
 			success: function (data) {
+				$('.loading').hide();
 				if (data.success) {
 					$('#newUser').modal('hide');
 					getUser();
@@ -140,6 +148,45 @@ if ($('.usersPage').length > 0) {
 
 			}
 		});
+	});
+}
+
+function getSchoolYear() {
+	$.ajax({
+		url : server + '/schoolyear',
+		method: 'get',
+		dataType: 'json',
+		headers: {
+			'Authorization' : 'Bearer ' + auth_token
+		},
+		success: function (data) {
+			var toHtml = '';
+			if (data.success) {
+				$.each(data.data, function (i, e){
+					var html = '<tr class="tr-shadow">' +
+	                                '<td><a href="'+ baseURL +'/admin/schoolyear/'+ e.id +'">' + e.title + '</a></td>' +
+	                                '<td class="desc">' + e.description + '</td>'+
+	                                '<td>'+
+	                                '    <div class="table-data-feature">'+
+	                                '        <button class="item" data-toggle="tooltip" data-placement="top" title="Send">'+
+	                                '            <i class="zmdi zmdi-mail-send"></i>'+
+	                                '        </button>'+
+	                                '        <button class="item" data-toggle="tooltip" data-placement="top" title="Edit">'+
+	                                '            <i class="zmdi zmdi-edit"></i>'+
+	                                '        </button>'+
+	                                '        <button class="item" data-toggle="tooltip" data-placement="top" title="Delete">'+
+	                                '            <i class="zmdi zmdi-delete"></i>'+
+	                                '        </button>'+
+	                                '    </div>'+
+	                                '</td>'+
+	                            '</tr>'+
+	                            '<tr class="spacer"></tr>';
+
+	                toHtml = toHtml.concat(html);
+				});
+				$('.schoolyearList').html(toHtml);
+			}
+		}
 	});
 }
 

@@ -107,6 +107,9 @@ if ($('.schoolYearPage').length > 0) {
 						// set teacher button click
 						$('.setToTeacher').on('click', function(e){
 							e.preventDefault();
+
+							$('.loading').show();
+
 							var teacher_id = me.data('id');
 							var selectedSubject = [];
 							var selectedRoom = [];
@@ -134,6 +137,7 @@ if ($('.schoolYearPage').length > 0) {
 									subjects : selectedRoom
 								}),
 								success: function(data) {
+									$('.loading').hide();
 									if (data.success) {
 										$('#setTeacherToSchoolYear, #setTeacherToSchoolYear').modal('hide');
 										getAllTeacher();

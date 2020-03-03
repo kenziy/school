@@ -19,7 +19,7 @@
     <link href="{{ asset('vendor/mdi-font/css/material-design-iconic-font.min.css') }}" rel="stylesheet" media="all">
 
     <!-- Bootstrap CSS-->
-    <link href="{{ asset('vendor/bootstrap-4.1/bootstrap.min.css') }}" rel="stylesheet" media="all">
+    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet" media="all">
 
     <!-- Vendor CSS-->
     <link href="{{ asset('vendor/animsition/animsition.min.css') }}" rel="stylesheet" media="all">
@@ -32,6 +32,7 @@
 
     <!-- Main CSS-->
     <link href="{{ asset('css/theme.css') }}" rel="stylesheet" media="all">
+    <link href="{{ asset('css/style.css') }}" rel="stylesheet" media="all">
     <script type="text/javascript">
         var server = '{{ url('/api/') }}';
         var baseURL = '{{ url('/') }}';
@@ -40,3 +41,8 @@
 </head>
 
 <body class="">
+    <div class="loading">
+        <div class="spinner-border text-danger" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+    </div>

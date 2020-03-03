@@ -60,7 +60,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn au-btn--blue">Create</button>
+                    <button type="button" class="btn au-btn--blue submit">Create</button>
                 </div>
             </div>
         </div>
