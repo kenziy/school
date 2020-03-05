@@ -1,8 +1,5 @@
 @include('header');
 @include('nav2');
-    <script type="text/javascript">
-        var sy_id = {{ $sy_id }};
-    </script>
     <div class="main-content schoolYearPage">
         <div class="section__content section__content--p30">
             <div class="container-fluid">

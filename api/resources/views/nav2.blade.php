@@ -112,13 +112,21 @@
             <div class="menu-sidebar__content js-scrollbar1">
                 <nav class="navbar-sidebar">
                     <ul class="list-unstyled navbar__list">
-                        <li class="<?php echo $active == 'dashboard' ? 'active' : ''; ?>">
-                            <a  href="{{ url('admin/dashboard') }}">
-                                <i class="fas fa-calendar"></i>School Year</a>
-                        </li>
                         <li class="<?php echo $active == 'subjects' ? 'active' : ''; ?>">
-                            <a href="{{ url('admin/subjects') }}">
-                                <i class="fas fa-list"></i>Subjects</a>
+                            <a href="{{ url('admin/dashboard') }}">
+                                <i class="fas fa-home"></i>Home</a>
+                        </li>
+                        <li>
+                            <a  href="#" class="js-arrow">
+                                <i class="fas fa-chevron-down"></i> <span class="schoolYearTitle"></span></a>
+                                <ul class="list-unstyled navbar__sub-list js-sub-list" style="display: block;">
+                                    <li class="<?php echo $active == 'dashboard' ? 'active' : ''; ?> has-sub">
+                                        <a href="{{ url('admin/schoolyear/' . $sy_id) }}"><i class="fas fa-chalkboard-teacher"></i> Teachers</a>
+                                    </li>
+                                    <li class="<?php echo $active == 'settings' ? 'active' : ''; ?> has-sub">
+                                        <a href="{{ url('admin/schoolyear/' . $sy_id . '/settings') }}"><i class="fas fa-cog"></i> Settings</a>
+                                    </li>
+                                </ul>
                         </li>
                     </ul>
                 </nav>
@@ -297,3 +305,7 @@
                     </div>
                 </div>
             </header>
+            <div class="schoolYearPage"></div>
+            <script type="text/javascript">
+                var sy_id = {{ $sy_id }};
+            </script>

@@ -28,6 +28,10 @@ Route::prefix('admin')->group(function() {
 		return view('admin.subject', ['active' => 'subjects']);
 	});
 
+	Route::get('levels', function() {
+		return view('admin.level', ['active' => 'levels']);
+	});
+
 	Route::get('rooms', function() {
 		return view('admin.room', ['active' => 'rooms']);
 	});
@@ -37,7 +41,11 @@ Route::prefix('admin')->group(function() {
 	});
 
 	Route::get('schoolyear/{id}', function($id) {
-		return view('admin.schoolYear', ['active' => 'schoolYear', 'sy_id' => $id]);
+		return view('admin.schoolYear', ['active' => 'dashboard', 'sy_id' => $id]);
+	});
+
+	Route::get('schoolyear/{id}/settings', function($id) {
+		return view('admin.setting', ['active' => 'settings', 'sy_id' => $id]);
 	});
 });
 
@@ -45,4 +53,8 @@ Route::prefix('teacher')->group(function(){
 	Route::get('dashboard', function(){
 		return view('teacher.dashboard', ['active' => 'dashboard']);
 	});
+});
+
+Route::get('enrollment/{token}', function($token) {
+	return view('enrollment', ['token' => $token]);
 });

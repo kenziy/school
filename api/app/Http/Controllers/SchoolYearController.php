@@ -5,19 +5,22 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class SchoolYearController extends Controller
 {
 	public function get(Request $request) {
 		$response = ['success' => false, 'msg' => 'No record found'];
 
-		$getAll = DB::table('school_years')->get();
+		$getAll = DB::table('school_years')->orderBy('id', 'desc')->get();
 		$data = [];
 		foreach ($getAll as $all) {
 			$data[] = [
-				'id'	=> $all->id,
-				'title' => $all->title,
-				'description' => $all->description
+				'id'	             => $all->id,
+				'title'              => $all->title,
+				'description'        => $all->description,
+                'online_enrollment' => $all->online_enrollment,
+                'token'              => $all->token,
 			];
 		}
 
@@ -36,8 +39,10 @@ class SchoolYearController extends Controller
 			return response()->json(['success' => false, 'error' => $errors->toJson()], 200);
         } else {
         	if (DB::table('school_years')->insert([
-        		'title' => $request->title,
-        		'description' => $request->description != "" ? $request->description : ''
+        		'title'              => $request->title,
+        		'description'        => $request->description != "" ? $request->description : '',
+                'online_enrollment' => $request->online_enrollment,
+                'token'              => Str::random(8)
         	])) {
         		return response()->json(['success' => true, 'msg' => 'School Year successfully added'], 200);
         	}
@@ -65,4 +70,6 @@ class SchoolYearController extends Controller
         }
     	return response()->json(['success' => true, 'data' => $data, 'teachers' => $allTeach], 200);
     }
+
+
 }

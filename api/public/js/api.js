@@ -1,22 +1,26 @@
 (function($){
 
 
-	if ($('.register').length > 0){
-		$('#register').on('click', function(){
+	if ($('.enrollment').length > 0){
+
+		ELevel();
+		$('.enroll').on('click', function(){
 			$.ajax({
-				url : server + '/register',
+				url : server + '/enroll',
 				method: 'post',
 				dataType: 'json',
 				contentType: 'application/json',
 				data: JSON.stringify({
-					name : $('.name').val(),
-					email : $('.email').val(),
-					password : $('.password').val()
+					first_name 	: $('.first_name').val(),
+					middle_name : $('.middle_name').val(),
+					last_name 	: $('.last_name').val(),
+					gender 		: $('.gender').val(),
+					email 		: $('.email').val(),
+					ylevel 		: $('.ylevel').val()
 				}),
 				success: function (data) {
 					if (data.success) {
-						localStorage.setItem('token', data.token);
-						window.location.href = baseURL + '/dashboard';
+						window.location.href = baseURL + '/thankyou';
 					} else {
 						$('.error').show();
 					}
@@ -55,4 +59,34 @@
 		});
 	}
 
+
+function ELevel() {
+	$.ajax({
+		url : server + '/enrollment/' + sy_code,
+		method: 'get',
+		dataType: 'json',
+		success: function (data) {
+			var toHtml = '';
+			if (data.success) {
+				$('.batchTitle').html(data.data.title);
+			}
+		}
+	});
+
+	$.ajax({
+		url : server + '/level',
+		method: 'get',
+		dataType: 'json',
+		success: function (data) {
+			var toHtml = '';
+			if (data.success) {
+				$.each(data.data, function (i, e){
+					var html = '<option value="' + e.id + '">' + e.title + '</option>';
+	                toHtml = toHtml.concat(html);
+				});
+				$('.ylevel').html(toHtml);
+			}
+		}
+	});
+}
 })(jQuery);

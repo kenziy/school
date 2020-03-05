@@ -1,6 +1,6 @@
 if ($('.schoolYearPage').length > 0) {
-
 	getAllTeacher();
+
 	function getAllTeacher() {
 		$.ajax({
 			url : server + '/schoolyear/' + sy_id,
@@ -14,6 +14,13 @@ if ($('.schoolYearPage').length > 0) {
 					var info = data.data;
 					$('.schoolYearTitle').html(info.title);
 					$('.scholYeardescription').html(info.description);
+
+
+					$('.online_link').val(baseURL + '/enrollment/' + info.token);
+					if (info.online_enrollment) {
+						$('.online_enrolment').prop('checked', true);
+						$('.enStat').html('<span class="text-success">Enabled</span>');
+					}
 
 					var toTe = '';
 					$.each(data.teachers, function(i, e){

@@ -34,7 +34,8 @@ if ($('.listSchoolYear').length > 0) {
 			},
 			data: JSON.stringify({
 				title : $('#addSY .title').val(),
-				description : $('#addSY .description').val()
+				description : $('#addSY .description').val(),
+				online_enrollment : $('#addSY .online_enrollment').val()
 			}),
 			success: function (data) {
 				$('.loading').hide();
@@ -73,6 +74,38 @@ if ($('.roomPage').length > 0) {
 				if (data.success) {
 					$('#addRoom').modal('hide');
 					getRoom();
+				} else {
+					alert(data.error);
+				}
+
+			}
+		});
+	});
+}
+
+if ($('.levelPage').length > 0) {
+
+	getLevel();
+
+	$('#addLevel .submit').on('click', function(){
+		$('.loading').show();
+		$.ajax({
+			url : server + '/level',
+			method: 'post',
+			dataType: 'json',
+			contentType: 'application/json',
+			headers: {
+				'Authorization' : 'Bearer ' + auth_token
+			},
+			data: JSON.stringify({
+				title : $('#addLevel .title').val(),
+				description : $('#addLevel .description').val()
+			}),
+			success: function (data) {
+				$('.loading').hide();
+				if (data.success) {
+					$('#addLevel').modal('hide');
+					getLevel();
 				} else {
 					alert(data.error);
 				}
@@ -165,12 +198,11 @@ function getSchoolYear() {
 				$.each(data.data, function (i, e){
 					var html = '<tr class="tr-shadow">' +
 	                                '<td><a href="'+ baseURL +'/admin/schoolyear/'+ e.id +'">' + e.title + '</a></td>' +
-	                                '<td class="desc">' + e.description + '</td>'+
+	                                '<td class="desc">0</td>'+
+	                                '<td>' + (e.online_enrollment == 1 ? "<span class=\'text-success\'>Active</span>" : "<span class=\'text-muted\'>Disabled</span>") + '</td>'+
+	                                '<td><a href="' + baseURL + '/enrollment/' + e.token + '" target="_blank"><i class="fas fa-link"></i></a></td>'+
 	                                '<td>'+
 	                                '    <div class="table-data-feature">'+
-	                                '        <button class="item" data-toggle="tooltip" data-placement="top" title="Send">'+
-	                                '            <i class="zmdi zmdi-mail-send"></i>'+
-	                                '        </button>'+
 	                                '        <button class="item" data-toggle="tooltip" data-placement="top" title="Edit">'+
 	                                '            <i class="zmdi zmdi-edit"></i>'+
 	                                '        </button>'+
@@ -224,6 +256,42 @@ function get() {
 	                toHtml = toHtml.concat(html);
 				});
 				$('.schoolyearList').html(toHtml);
+			}
+		}
+	});
+}
+
+function getLevel() {
+	$.ajax({
+		url : server + '/level',
+		method: 'get',
+		dataType: 'json',
+		headers: {
+			'Authorization' : 'Bearer ' + auth_token
+		},
+		success: function (data) {
+			var toHtml = '';
+			if (data.success) {
+				$.each(data.data, function (i, e){
+					var html = '<tr class="tr-shadow">' +
+	                                '<td><a href="#">' + e.title + '</a></td>' +
+	                                '<td class="desc">' + e.description + '</td>'+
+	                                '<td>'+
+	                                '    <div class="table-data-feature">'+
+	                                '        <button class="item" data-toggle="tooltip" data-placement="top" title="Edit">'+
+	                                '            <i class="zmdi zmdi-edit"></i>'+
+	                                '        </button>'+
+	                                '        <button class="item" data-toggle="tooltip" data-placement="top" title="Delete">'+
+	                                '            <i class="zmdi zmdi-delete"></i>'+
+	                                '        </button>'+
+	                                '    </div>'+
+	                                '</td>'+
+	                            '</tr>'+
+	                            '<tr class="spacer"></tr>';
+
+	                toHtml = toHtml.concat(html);
+				});
+				$('.levelList').html(toHtml);
 			}
 		}
 	});

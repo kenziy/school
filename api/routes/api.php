@@ -31,6 +31,9 @@ Route::group(['middleware' => ['auth:api', 'IsAdmin']], function () {
     Route::get('room', 'RoomController@get');
     Route::post('room', 'RoomController@create');
 
+    // level
+    Route::post('level', 'LevelController@create');
+
     //subjects
     Route::get('subject', 'SubjectController@get');
     Route::post('subject', 'SubjectController@create');
@@ -43,3 +46,8 @@ Route::group(['middleware' => ['auth:api', 'IsAdmin']], function () {
         Route::get('dashboard', 'TeacherController@dashboard');
     });
 });
+
+Route::get('level', 'LevelController@get');
+
+Route::get('enrollment/{token}', 'EnrollmentController@getByToken');
+Route::post('enroll', 'EnrollmentController@enroll');

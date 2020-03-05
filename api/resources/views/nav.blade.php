@@ -114,23 +114,27 @@
                     <ul class="list-unstyled navbar__list">
                         <li class="<?php echo $active == 'dashboard' ? 'active' : ''; ?>">
                             <a  href="{{ url('admin/dashboard') }}">
-                                <i class="fas fa-calendar"></i>School Year</a>
+                                <i class="fas fa-graduation-cap"></i>School Year</a>
+                        </li>
+                        <li class="<?php echo $active == 'levels' ? 'active' : ''; ?>">
+                            <a href="{{ url('admin/levels') }}">
+                                <i class="fas fa-bars"></i>Levels</a>
                         </li>
                         <li class="<?php echo $active == 'subjects' ? 'active' : ''; ?>">
                             <a href="{{ url('admin/subjects') }}">
-                                <i class="fas fa-list"></i>Subjects</a>
+                                <i class="fas fa-book-open"></i>Subjects</a>
                         </li>
                         <li class="<?php echo $active == 'rooms' ? 'active' : ''; ?>">
                             <a href="{{ url('admin/rooms') }}">
-                                <i class="fas fa-archive"></i>Rooms</a>
+                                <i class="fas fa-school"></i>Rooms</a>
                         </li>
                         <li class="<?php echo $active == 'users' ? 'active' : ''; ?>">
                             <a href="{{ url('admin/users') }}">
-                                <i class="fas fa-users"></i>Users</a>
+                                <i class="fas fa-user-tie"></i>Users</a>
                         </li>
                         <li>
                             <a href="#">
-                                <i class="fas fa-users"></i>Students</a>
+                                <i class="fas fa-user-graduate"></i>Students</a>
                         </li>
                         <li>
                             <a href="#">
