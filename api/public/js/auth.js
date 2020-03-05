@@ -9,7 +9,7 @@ if ($('.auth').length > 0) {
 		},
 		success: function (data) {
 			if (data.success) {
-				$('.user_name').html(data.user.name);
+				$('.user_name').html(data.user.last_name + ', ' + data.user.first_name + ' ' + data.user.middle_name);
 				$('.user_email').html(data.user.email);
 			} else {
 				window.location.href = base_url + 'login';
@@ -184,6 +184,41 @@ if ($('.usersPage').length > 0) {
 	});
 }
 
+if ($('.parentPage').length > 0) {
+
+	getStudent();
+
+	$('.addStudent').on('click', function(){
+		$('.loading').show();
+		$.ajax({
+			url : server + '/parent/student',
+			method: 'post',
+			dataType: 'json',
+			contentType: 'application/json',
+			headers: {
+				'Authorization' : 'Bearer ' + auth_token
+			},
+			data: JSON.stringify({
+				first_name : $('#addkids .fname').val(),
+				middle_name : $('#addkids .mname').val(),
+				last_name : $('#addkids .lname').val(),
+				gender : $('#addkids .gender').val(),
+				birthday : $('#addkids .birthday').val(),
+			}),
+			success: function (data) {
+				$('.loading').hide();
+				if (data.success) {
+					$('#addkids').modal('hide');
+					getStudent();
+				} else {
+					alert(data.error);
+				}
+
+			}
+		});
+	});
+}
+
 function getSchoolYear() {
 	$.ajax({
 		url : server + '/schoolyear',
@@ -222,44 +257,6 @@ function getSchoolYear() {
 	});
 }
 
-function get() {
-	$.ajax({
-		url : server + '/schoolyear',
-		method: 'get',
-		dataType: 'json',
-		headers: {
-			'Authorization' : 'Bearer ' + auth_token
-		},
-		success: function (data) {
-			var toHtml = '';
-			if (data.success) {
-				$.each(data.data, function (i, e){
-					var html = '<tr class="tr-shadow">' +
-	                                '<td><a href="'+ baseURL +'/admin/schoolyear/'+ e.id +'">' + e.title + '</a></td>' +
-	                                '<td class="desc">' + e.description + '</td>'+
-	                                '<td>'+
-	                                '    <div class="table-data-feature">'+
-	                                '        <button class="item" data-toggle="tooltip" data-placement="top" title="Send">'+
-	                                '            <i class="zmdi zmdi-mail-send"></i>'+
-	                                '        </button>'+
-	                                '        <button class="item" data-toggle="tooltip" data-placement="top" title="Edit">'+
-	                                '            <i class="zmdi zmdi-edit"></i>'+
-	                                '        </button>'+
-	                                '        <button class="item" data-toggle="tooltip" data-placement="top" title="Delete">'+
-	                                '            <i class="zmdi zmdi-delete"></i>'+
-	                                '        </button>'+
-	                                '    </div>'+
-	                                '</td>'+
-	                            '</tr>'+
-	                            '<tr class="spacer"></tr>';
-
-	                toHtml = toHtml.concat(html);
-				});
-				$('.schoolyearList').html(toHtml);
-			}
-		}
-	});
-}
 
 function getLevel() {
 	$.ajax({
@@ -404,6 +401,44 @@ function getUser() {
 	                toHtml = toHtml.concat(html);
 				});
 				$('.userList').html(toHtml);
+			}
+		}
+	});
+}
+
+function getStudent() {
+	$.ajax({
+		url : server + '/parent/student',
+		method: 'get',
+		dataType: 'json',
+		headers: {
+			'Authorization' : 'Bearer ' + auth_token
+		},
+		success: function (data) {
+			var toHtml = '';
+			if (data.success) {
+				$.each(data.data, function (i, e){
+					var html = '<tr class="tr-shadow">' +
+	                                '<td><a href="#">' + e.last_name + ', ' + e.first_name + ' ' + e.middle_name + '</a></td>' +
+	                                '<td></td>'+
+	                                '<td></td>'+
+	                                '<td></td>'+
+	                                '<td>'+
+	                                '    <div class="table-data-feature">'+
+	                                '        <button class="item" data-toggle="tooltip" data-placement="top" title="Edit">'+
+	                                '            <i class="zmdi zmdi-edit"></i>'+
+	                                '        </button>'+
+	                                '        <button class="item" data-toggle="tooltip" data-placement="top" title="Delete">'+
+	                                '            <i class="zmdi zmdi-delete"></i>'+
+	                                '        </button>'+
+	                                '    </div>'+
+	                                '</td>'+
+	                            '</tr>'+
+	                            '<tr class="spacer"></tr>';
+
+	                toHtml = toHtml.concat(html);
+				});
+				$('.myStudentList').html(toHtml);
 			}
 		}
 	});

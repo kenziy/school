@@ -13,7 +13,6 @@ class PassportController extends Controller
     public function register(Request $request) {
 
         $validation = Validator::make($request->json()->all(), [
-            'name' => 'required|min:3',
             'email' => 'required|email|unique:users',
             'password' => 'required',
         ]);
@@ -24,9 +23,17 @@ class PassportController extends Controller
 
         } else {
 	        $user = User::create([
-                    'name'              => $request->name,
+                    'first_name'        => $request->first_name,
+                    'middle_name'       => $request->middle_name,
+                    'last_name'         => $request->last_name,
+                    'gender'            => $request->gender,
+                    'birthday'          => '',
+                    'address'           => '',
+                    'picture'           => '',
+                    'temp_pass'         => '',
                     'email'             => $request->email,
                     'password'          => bcrypt($request->password),
+                    'role'              => 3
 
                 ]);
 	 

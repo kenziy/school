@@ -29,6 +29,35 @@
 		});
 	}
 
+	if ($('.register').length > 0) {
+		$('.register_submit').on('click', function(){
+			$('.loading').show();
+			$.ajax({
+				url : server + '/register',
+				method: 'post',
+				dataType: 'json',
+				contentType: 'application/json',
+				data: JSON.stringify({
+					first_name 	: $('.fname').val(),
+					middle_name : $('.mnane').val(),
+					last_name 	: $('.lname').val(),
+					gender 		: $('.gender').val(),
+					email 		: $('.email').val(),
+					password    : $('.password').val(),
+				}),
+				success: function (data) {
+					$('.loading').hide();
+					if (data.success) {
+						localStorage.setItem('token', data.token);
+						window.location.href = baseURL + '/parent/dashboard';
+					} else {
+						$('.error').show();
+					}
+				}
+			})
+		});
+	}
+
 	if ($('.login').length > 0) {
 		$('#login').on('click', function(){
 			$('.loading').show();

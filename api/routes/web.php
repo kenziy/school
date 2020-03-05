@@ -55,6 +55,16 @@ Route::prefix('teacher')->group(function(){
 	});
 });
 
+Route::prefix('parent')->group(function() {
+	Route::get('dashboard', function(){
+		return view('parent.dashboard', ['active' => 'dashboard']);
+	});
+});
+
 Route::get('enrollment/{token}', function($token) {
 	return view('enrollment', ['token' => $token]);
+});
+
+Route::get('register', function() {
+	return view('parent.register');
 });

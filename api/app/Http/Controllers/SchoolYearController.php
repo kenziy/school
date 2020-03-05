@@ -19,7 +19,7 @@ class SchoolYearController extends Controller
 				'id'	             => $all->id,
 				'title'              => $all->title,
 				'description'        => $all->description,
-                'online_enrollment' => $all->online_enrollment,
+                'online_enrollment'  => $all->online_enrollment,
                 'token'              => $all->token,
 			];
 		}
