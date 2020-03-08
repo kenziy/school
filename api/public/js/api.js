@@ -77,8 +77,10 @@
 
 						if (data.role == 1) {
 							window.location.href = baseURL + '/admin/dashboard';
-						} else {
+						} else if (data.role == 2) {
 							window.location.href = baseURL + '/teacher/dashboard';
+						} else {
+							window.location.href = baseURL + '/parent/dashboard';
 						}
 					} else {
 						$('.error').show();

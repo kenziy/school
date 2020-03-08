@@ -52,4 +52,36 @@ class StudentController extends Controller
         	}
         }
     }
+
+    public function enroll(Request $request) {
+        $validation = Validator::make($request->json()->all(), [
+            'student_id' => 'required',
+            'sy_id' => 'required',
+            'level_id' => 'required',
+        ]);
+
+        $return = [];
+        if($validation->fails()){
+            $errors = $validation->errors();
+            return response()->json(['success' => false, 'error' => $errors->toJson()], 200);
+        } else {
+            $enroll_id = DB::table('enroll_student')->insertGetId([
+                            'student_id' => $request->student_id,
+                            'sy_id'      => $request->sy_id,
+                            'level_id'   => $request->level_id,
+                            'status'     => 0,
+                        ]);
+            $payment = [
+                'enroll_id'      => $enroll_id,
+                'payment_method' => 0,
+                'amount'         => 0,
+                'description'    => 'Over the counter',
+                'amount'         => 0
+            ];
+
+            if (DB::table('payments')->insert($payment)) {
+                return response()->json(['success' => true, 'msg' => 'Student successfully enroll'], 200);
+            }
+        }
+    }
 }

@@ -99,6 +99,7 @@ if ($('.levelPage').length > 0) {
 			},
 			data: JSON.stringify({
 				title : $('#addLevel .title').val(),
+				tuition : $('#addLevel .tuition').val(),
 				description : $('#addLevel .description').val()
 			}),
 			success: function (data) {
@@ -219,6 +220,10 @@ if ($('.parentPage').length > 0) {
 	});
 }
 
+if ($('.parentEnroll').length > 0) {
+	availableSY();
+}
+
 function getSchoolYear() {
 	$.ajax({
 		url : server + '/schoolyear',
@@ -272,7 +277,8 @@ function getLevel() {
 				$.each(data.data, function (i, e){
 					var html = '<tr class="tr-shadow">' +
 	                                '<td><a href="#">' + e.title + '</a></td>' +
-	                                '<td class="desc">' + e.description + '</td>'+
+	                                '<td>' + e.description + '</td>'+
+	                                '<td class="desc">' + e.tuition + '</td>'+
 	                                '<td>'+
 	                                '    <div class="table-data-feature">'+
 	                                '        <button class="item" data-toggle="tooltip" data-placement="top" title="Edit">'+
@@ -416,6 +422,7 @@ function getStudent() {
 		},
 		success: function (data) {
 			var toHtml = '';
+			var toOption = '';
 			if (data.success) {
 				$.each(data.data, function (i, e){
 					var html = '<tr class="tr-shadow">' +
@@ -435,11 +442,102 @@ function getStudent() {
 	                                '</td>'+
 	                            '</tr>'+
 	                            '<tr class="spacer"></tr>';
+	                 var opt = '<option value="' + e.id + '">' + e.last_name + ', ' + e.first_name + ' ' + e.middle_name + '</option>';
 
+	                toOption = toOption.concat(opt);
 	                toHtml = toHtml.concat(html);
 				});
 				$('.myStudentList').html(toHtml);
+				$('.myStudent').html(toOption);
 			}
 		}
 	});
 }
+
+	function availableSY() {
+		getStudent();
+		$.ajax({
+			url : server + '/level',
+			method: 'get',
+			dataType: 'json',
+			success: function (data) {
+				var toHtml = '<option value="0">Select level</option>';
+				if (data.success) {
+					$.each(data.data, function (i, e){
+						var html = '<option value="' + e.id + '" data-tuition="'+ e.tuition +'">' + e.title + '</option>';
+		                toHtml = toHtml.concat(html);
+					});
+					$('.ylevel').html(toHtml);
+
+					$('.level_id').on('change', function(){
+						$('.tuition').val($(this).find('option:selected').data('tuition'));
+					});
+				}
+			}
+		});
+		$.ajax({
+			url : server + '/enrollment/open',
+			method: 'get',
+			dataType: 'json',
+			headers: {
+				'Authorization' : 'Bearer ' + auth_token
+			},
+			success: function (data) {
+				var toHtml = '';
+				if (data.success) {
+					$.each(data.data, function (i, e){
+						var html = '<tr class="tr-shadow">' +
+		                                '<td><a href="#" class="openEnroll" data-title="'+e.title+'" data-id="'+e.id+'">'+e.title+'</a></td>' +
+		                                '<td>'+
+		                                '    <div class="table-data-feature">'+
+		                                '        <button class="item openEnroll" data-title="'+e.title+'" data-id="'+e.id+'">'+
+		                                '            <i class="fas fa-edit"></i>'+
+		                                '        </button>'+
+		                                '    </div>'+
+		                                '</td>'+
+		                            '</tr>'+
+		                            '<tr class="spacer"></tr>';
+
+		                toHtml = toHtml.concat(html);
+					});
+					$('.availableSy').html(toHtml);
+
+					$('.openEnroll').on('click', function(e){
+						e.preventDefault();
+						$('#mediumModalLabel').html($(this).data('title'));
+						$('#sy_id').val($(this).data('id'));
+						$('#enrolStudent').modal('show');
+					});
+
+					$('.enrollstudent').on('click', function(){
+						$('.loading').show();
+						$.ajax({
+							url : server + '/parent/enroll',
+							method: 'post',
+							dataType: 'json',
+							contentType: 'application/json',
+							headers: {
+								'Authorization' : 'Bearer ' + auth_token
+							},
+							data: JSON.stringify({
+								sy_id : $('#sy_id').val(),
+								student_id : $('.myStudent').val(),
+								level_id : $('.level_id').val(),
+
+							}),
+							success: function (data) {
+								$('.loading').hide();
+								if (data.success) {
+									$('#addSY, .enrolStudent').modal('hide');
+									getSchoolYear();
+								} else {
+									alert(data.error);
+								}
+
+							}
+						});
+					});
+				}
+			}
+		});
+	}

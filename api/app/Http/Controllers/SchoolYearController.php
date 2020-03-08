@@ -71,5 +71,47 @@ class SchoolYearController extends Controller
     	return response()->json(['success' => true, 'data' => $data, 'teachers' => $allTeach], 200);
     }
 
+    public function open() {
+        $response = ['success' => false, 'msg' => 'No record found'];
+
+        $getAll = DB::table('school_years')->orderBy('id', 'desc')->where('online_enrollment', 1)->get();
+        $data = [];
+        foreach ($getAll as $all) {
+            $data[] = [
+                'id'                 => $all->id,
+                'title'              => $all->title,
+                'description'        => $all->description,
+                'online_enrollment'  => $all->online_enrollment,
+                'token'              => $all->token,
+            ];
+        }
+
+        return response()->json(['success' => true, 'data' => $data], 200);
+    }
+
+    public function queue($sy_id) {
+        $response = ['success' => false, 'msg' => 'No record found'];
+
+        $getAll = DB::table('enroll_student as es')
+                    ->select('s.first_name', 's.middle_name', 's.last_name', 'es.status', 'u.first_name as pfname', 'u.middle_name as pmname', 'u.last_name as plname', 'es.*', 'l.title as level')
+                    ->join('students as s', 's.id', '=', 'es.student_id')
+                    ->join('users as u', 'u.id', '=', 's.guardian_id')
+                    ->join('levels as l', 'l.id', '=', 'es.level_id')
+                    ->orderBy('es.id', 'desc')
+                    ->where('es.status', 0)->get();
+        $data = [];
+        foreach ($getAll as $all) {
+            $data[] = [
+                'id'                 => $all->id,
+                'name'               => $all->last_name . ', ' . $all->first_name . ' ' . $all->middle_name,
+                'guardian'           => $all->pfname . ', ' . $all->plname . ' ' . $all->pmname,
+                'status'             => $all->status == 0 ? "pending" : "approved",
+                'level'              => $all->level,
+                'date'               => $all->created_at
+            ];
+        }
+
+        return response()->json(['success' => true, 'data' => $data], 200);
+    }
 
 }

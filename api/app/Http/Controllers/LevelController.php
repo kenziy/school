@@ -15,8 +15,9 @@ class LevelController extends Controller
         $data = [];
         foreach ($getAll as $all) {
             $data[] = [
-                'id'    => $all->id,
-                'title' => $all->title,
+                'id'      => $all->id,
+                'title'   => $all->title,
+                'tuition' => $all->tuition,
                 'description' => $all->description
             ];
         }
@@ -36,7 +37,8 @@ class LevelController extends Controller
 			return response()->json(['success' => false, 'error' => $errors->toJson()], 200);
         } else {
         	if (DB::table('levels')->insert([
-        		'title'       => $request->title,
+                'title'         => $request->title,
+        		'tuition'       => $request->tuition,
         		'description' => is_null($request->description) ? '' : $request->description
         	])) {
         		return response()->json(['success' => true, 'msg' => 'Levels successfully added'], 200);

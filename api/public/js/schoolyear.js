@@ -1,5 +1,6 @@
 if ($('.schoolYearPage').length > 0) {
 	getAllTeacher();
+	getAllQueue();
 
 	function getAllTeacher() {
 		$.ajax({
@@ -35,6 +36,35 @@ if ($('.schoolYearPage').length > 0) {
 					});
 
 					$('.allTeachers').html(toTe);
+				}
+			}
+		});
+	}
+
+	function getAllQueue() {
+		$.ajax({
+			url : server + '/schoolyear/' + sy_id + '/queue',
+			method: 'get',
+			dataType: 'json',
+			headers: {
+				'Authorization' : 'Bearer ' + auth_token
+			},
+			success: function (data) {
+				if (data.success) {
+					var toTe = '';
+					$.each(data.data, function(i, e){
+						var html = '<tr class="tr-shadow">' +
+		                                '<td><a href="#">' + e.name + '</a></td>' +
+		                                '<td><a href="#">' + e.guardian + '</a></td>' +
+		                                '<td><a href="#">' + e.level + '</a></td>' +
+		                                '<td>' + e.status+ '</td>'+
+		                                '<td>' + e.date+ '</td>'+
+		                            '</tr>'+
+		                            '<tr class="spacer"></tr>';
+		                toTe = toTe.concat(html);
+					});
+
+					$('.queued').html(toTe);
 				}
 			}
 		});

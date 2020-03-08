@@ -113,11 +113,11 @@
                 <nav class="navbar-sidebar">
                     <ul class="list-unstyled navbar__list">
                         <li class="<?php echo $active == 'dashboard' ? 'active' : ''; ?>">
-                            <a  href="{{ url('admin/dashboard') }}">
+                            <a  href="{{ url('parent/dashboard') }}">
                                 <i class="fas fa-child"></i>My Students</a>
                         </li>
                         <li class="<?php echo $active == 'enrollment' ? 'active' : ''; ?>">
-                            <a href="{{ url('admin/subjects') }}">
+                            <a href="{{ url('parent/enrollment') }}">
                                 <i class="fas fa-school"></i>Open Enrollment</a>
                         </li>
                         <li class="<?php echo $active == 'announcement' ? 'active' : ''; ?>">

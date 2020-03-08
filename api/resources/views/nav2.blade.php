@@ -123,6 +123,9 @@
                                     <li class="<?php echo $active == 'dashboard' ? 'active' : ''; ?> has-sub">
                                         <a href="{{ url('admin/schoolyear/' . $sy_id) }}"><i class="fas fa-chalkboard-teacher"></i> Teachers</a>
                                     </li>
+                                    <li class="<?php echo $active == 'queue' ? 'active' : ''; ?> has-sub">
+                                        <a href="{{ url('admin/schoolyear/' . $sy_id . '/queue') }}"><i class="fas fa-users"></i> Student Queue</a>
+                                    </li>
                                     <li class="<?php echo $active == 'settings' ? 'active' : ''; ?> has-sub">
                                         <a href="{{ url('admin/schoolyear/' . $sy_id . '/settings') }}"><i class="fas fa-cog"></i> Settings</a>
                                     </li>

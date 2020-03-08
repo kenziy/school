@@ -27,6 +27,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('schoolyear', 'SchoolYearController@get');
     Route::post('schoolyear', 'SchoolYearController@create');
     Route::get('schoolyear/{id}', 'SchoolYearController@getById');
+    Route::get('schoolyear/{id}/queue', 'SchoolYearController@queue');
     // Room
     Route::get('room', 'RoomController@get');
     Route::post('room', 'RoomController@create');
@@ -49,10 +50,12 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::prefix('parent')->group(function(){
         Route::get('student', 'StudentController@get');
         Route::post('student', 'StudentController@create');
+        Route::post('enroll', 'StudentController@enroll');
     });
 });
 
-Route::get('level', 'LevelController@get');
+Route::get('enrollment/open', 'SchoolYearController@open');
 
+Route::get('level', 'LevelController@get');
 Route::get('enrollment/{token}', 'EnrollmentController@getByToken');
 Route::post('enroll', 'EnrollmentController@enroll');

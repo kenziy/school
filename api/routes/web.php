@@ -47,6 +47,10 @@ Route::prefix('admin')->group(function() {
 	Route::get('schoolyear/{id}/settings', function($id) {
 		return view('admin.setting', ['active' => 'settings', 'sy_id' => $id]);
 	});
+
+	Route::get('schoolyear/{id}/queue', function($id) {
+		return view('admin.queue', ['active' => 'queue', 'sy_id' => $id]);
+	});
 });
 
 Route::prefix('teacher')->group(function(){
@@ -58,6 +62,10 @@ Route::prefix('teacher')->group(function(){
 Route::prefix('parent')->group(function() {
 	Route::get('dashboard', function(){
 		return view('parent.dashboard', ['active' => 'dashboard']);
+	});
+
+	Route::get('enrollment', function(){
+		return view('parent.enrollment', ['active' => 'enrollment']);
 	});
 });
 
