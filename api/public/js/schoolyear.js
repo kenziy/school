@@ -1,6 +1,11 @@
 if ($('.schoolYearPage').length > 0) {
 	getAllTeacher();
 	getAllQueue();
+	getAllEnrolled();
+
+	if ($('.studentProfile').length > 0) {
+		getStudentProfile();
+	}
 
 	function getAllTeacher() {
 		$.ajax({
@@ -54,7 +59,7 @@ if ($('.schoolYearPage').length > 0) {
 					var toTe = '';
 					$.each(data.data, function(i, e){
 						var html = '<tr class="tr-shadow">' +
-		                                '<td><a href="#">' + e.name + '</a></td>' +
+		                                '<td><a href="' + baseURL + '/admin/schoolyear/' + sy_id + '/queue/' + e.id + '">' + e.name + '</a></td>' +
 		                                '<td><a href="#">' + e.guardian + '</a></td>' +
 		                                '<td><a href="#">' + e.level + '</a></td>' +
 		                                '<td>' + e.status+ '</td>'+
@@ -65,6 +70,100 @@ if ($('.schoolYearPage').length > 0) {
 					});
 
 					$('.queued').html(toTe);
+				}
+			}
+		});
+	}
+
+	function getAllEnrolled() {
+		$.ajax({
+			url : server + '/schoolyear/' + sy_id + '/enrolled',
+			method: 'get',
+			dataType: 'json',
+			headers: {
+				'Authorization' : 'Bearer ' + auth_token
+			},
+			success: function (data) {
+				if (data.success) {
+					var toTe = '';
+					$.each(data.data, function(i, e){
+						var html = '<tr class="tr-shadow">' +
+		                                '<td><a href="' + baseURL + '/admin/schoolyear/' + sy_id + '/queue/' + e.id + '">' + e.name + '</a></td>' +
+		                                '<td><a href="#">' + e.guardian + '</a></td>' +
+		                                '<td><a href="#">' + e.level + '</a></td>' +
+		                                '<td>' + e.status+ '</td>'+
+		                                '<td>' + e.date+ '</td>'+
+		                            '</tr>'+
+		                            '<tr class="spacer"></tr>';
+		                toTe = toTe.concat(html);
+					});
+
+					$('.enrolled').html(toTe);
+				}
+			}
+		});
+	}
+
+	function getStudentProfile() {
+		$.ajax({
+			url : server + '/schoolyear/' + sy_id + '/queue/' + student_id,
+			method: 'get',
+			dataType: 'json',
+			headers: {
+				'Authorization' : 'Bearer ' + auth_token
+			},
+			success: function (data) {
+				if (data.success) {
+					var student = data.data.student;
+					$('.student-name').html(student.last_name + ', ' + student.first_name + ' ' + student.middle_name);
+					$('.gender').html(student.gender);
+					$('.dob').html(student.birthday);
+					$('.guardian').html(student.g_lname + ', ' + student.g_fname + ' ' + student.g_mname);
+					$('.level').html(student.level);
+					$('.tuition').html(student.tuition);
+
+					var toHtml = '';
+					var total = 0;
+					console.log(data.data.payments);
+					$.each(data.data.payments, function(i, e){
+						var html = '<tr class="tr-shadow">' +
+		                                '<td>' + (e.payment_method == 0 ? "Over the counter" : "Online" ) + '</td>' +
+		                                '<td>' + (e.status == 0 ? "Pending" : "Completed" ) + '</td>' + 
+		                                '<td>' + e.created_at	 + '</td>' + 
+		                                '<td class="text-danger">' + e.amount	 + ' PHP</td>' + 
+		                                '<td><a href="#" class="approve" data-id="'+e.id+'">Approved</a></td>' + 
+		                            '</tr>'+
+		                            '<tr class="spacer"></tr>';
+		                total = total + parseFloat(e.amount);
+		                toHtml = toHtml.concat(html);
+					});
+
+					$('.totalPaid').html(total);
+					$('.allpayment').html(toHtml);
+					$('.remaining').html(parseFloat(student.tuition) - total);
+
+
+					$('.approve').on('click', function(e){
+						e.preventDefault();
+						if (confirm("Approve payment")) {
+							$.ajax({
+								url : server + '/schoolyear/' + sy_id + '/queue/' + student_id + '/approve',
+								method: 'post',
+								dataType: 'json',
+								headers: {
+									'Authorization' : 'Bearer ' + auth_token
+								},
+								data: {
+									'id' : $(this).data('id')
+								},
+								success: function(data) {
+									if (data.success) {
+										getStudentProfile();
+									}
+								}
+							})
+						}
+					})
 				}
 			}
 		});

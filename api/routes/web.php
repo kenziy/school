@@ -48,8 +48,16 @@ Route::prefix('admin')->group(function() {
 		return view('admin.setting', ['active' => 'settings', 'sy_id' => $id]);
 	});
 
+	Route::get('schoolyear/{id}/enrolled', function($id) {
+		return view('admin.enrolled', ['active' => 'enrolled', 'sy_id' => $id]);
+	});
+
 	Route::get('schoolyear/{id}/queue', function($id) {
 		return view('admin.queue', ['active' => 'queue', 'sy_id' => $id]);
+	});
+
+	Route::get('schoolyear/{id}/queue/{student_id}', function($id, $student_id) {
+		return view('admin.StudentProfile', ['active' => 'queue', 'sy_id' => $id, 'student_id' => $student_id]);
 	});
 });
 

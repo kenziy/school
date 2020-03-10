@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.2
+-- version 4.7.9
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 08, 2020 at 05:58 PM
--- Server version: 10.4.11-MariaDB
--- PHP Version: 7.4.1
+-- Generation Time: Mar 10, 2020 at 05:03 PM
+-- Server version: 10.1.31-MariaDB
+-- PHP Version: 7.2.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -35,7 +35,7 @@ CREATE TABLE `enrollments` (
   `student_id` int(11) NOT NULL,
   `sy_id` int(11) NOT NULL,
   `level_id` int(11) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -50,7 +50,7 @@ CREATE TABLE `enroll_student` (
   `sy_id` int(11) NOT NULL,
   `level_id` int(11) NOT NULL,
   `status` int(11) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -59,7 +59,7 @@ CREATE TABLE `enroll_student` (
 
 INSERT INTO `enroll_student` (`id`, `student_id`, `sy_id`, `level_id`, `status`, `created_at`) VALUES
 (1, 1, 3, 2, 0, '2020-03-06 14:58:38'),
-(2, 2, 3, 3, 0, '2020-03-08 15:32:43');
+(2, 2, 3, 3, 1, '2020-03-10 15:02:03');
 
 -- --------------------------------------------------------
 
@@ -73,7 +73,7 @@ CREATE TABLE `failed_jobs` (
   `queue` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `failed_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `failed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -87,7 +87,7 @@ CREATE TABLE `levels` (
   `title` varchar(100) NOT NULL,
   `description` text NOT NULL,
   `tuition` int(11) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -136,7 +136,7 @@ CREATE TABLE `oauth_access_tokens` (
   `user_id` bigint(20) DEFAULT NULL,
   `client_id` int(10) UNSIGNED NOT NULL,
   `name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `scopes` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `scopes` text COLLATE utf8mb4_unicode_ci,
   `revoked` tinyint(1) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -151,10 +151,12 @@ INSERT INTO `oauth_access_tokens` (`id`, `user_id`, `client_id`, `name`, `scopes
 ('1b374cec744f8ee14728cf0309d226ff03bdc275ec4550be14bd6ddcc5d5bda28250a7ef3f98b37f', 1, 3, 'schoolSystem', '[]', 0, '2020-03-03 04:58:07', '2020-03-03 04:58:07', '2021-03-03 12:58:07'),
 ('228c1a1f3a792e34ab1a39c8cb6d0d6ce3880346ff0644fff9a4300e90bbd010d6043794cd6c924a', 1, 3, 'schoolSystem', '[]', 0, '2020-02-28 09:27:11', '2020-02-28 09:27:11', '2021-02-28 17:27:11'),
 ('2304ce6e800494da95b3fffc84f488b575f17593fa29b67bc483dd3fb55832c3eb3254b5fc5158f1', 1, 3, 'schoolSystem', '[]', 0, '2020-02-22 22:03:05', '2020-02-22 22:03:05', '2021-02-23 06:03:05'),
+('252299020cea46dff2958b28371551bae715f5dd11cc76d5fd538dd01e8406e4caeaf045372d7066', 1, 3, 'schoolSystem', '[]', 0, '2020-03-09 06:34:49', '2020-03-09 06:34:49', '2021-03-09 14:34:49'),
 ('2c321d0516560f8eee734706029ecba3d6af7065a1f85f736289623e203624d5a4b0323533207693', 1, 3, 'schoolSystem', '[]', 0, '2020-02-27 09:27:03', '2020-02-27 09:27:03', '2021-02-27 17:27:03'),
 ('2d95064afdd1b696e38826abc16fdb1514017dfc2054278af466f353edc49aab134c4b70e5dd93fa', 1, 3, 'schoolSystem', '[]', 0, '2020-03-04 06:25:29', '2020-03-04 06:25:29', '2021-03-04 14:25:29'),
 ('3da18612ec555f4e3e5d4ab5e8e81aa1c388c11612d83c9fe6fc07ac308f96c5ba5619ce6c7861d2', 1, 3, 'schoolSystem', '[]', 0, '2020-03-05 02:05:24', '2020-03-05 02:05:24', '2021-03-05 10:05:24'),
 ('4f62380847608acb2fb67262c0d190096b7ab5a015d0511b33db71a30f6f3b29f5cd80f42d3623a2', 4, 3, 'schoolSystem', '[]', 0, '2020-03-05 06:56:59', '2020-03-05 06:56:59', '2021-03-05 14:56:59'),
+('64d1084804e7de75bc56b177d54cf30332a544556d56ff69bbf4e4091fdd4c6762ca32fb26150fce', 1, 3, 'schoolSystem', '[]', 0, '2020-03-10 05:52:28', '2020-03-10 05:52:28', '2021-03-10 13:52:28'),
 ('66b853e4291b65043638add7a10d0675432f781e6f4cc5d3429b809b96e854f848f2622f9cc42732', 4, 3, 'schoolSystem', '[]', 0, '2020-03-06 00:17:02', '2020-03-06 00:17:02', '2021-03-06 08:17:02'),
 ('6e06168f91c7bac74db2f92ba7cc72737969010834b96bc8c87a9c21b605277ca9acd63cd9632d40', 1, 3, 'schoolSystem', '[]', 0, '2020-03-07 07:59:07', '2020-03-07 07:59:07', '2021-03-07 15:59:07'),
 ('7ce391ea12335c7304540b53aef885fe58876ec94fce8c705e0e49cc79a0137cad131f90646cf529', 1, 3, 'schoolSystem', '[]', 0, '2020-02-24 19:21:09', '2020-02-24 19:21:09', '2021-02-25 03:21:09'),
@@ -172,7 +174,7 @@ CREATE TABLE `oauth_auth_codes` (
   `id` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `user_id` bigint(20) NOT NULL,
   `client_id` int(10) UNSIGNED NOT NULL,
-  `scopes` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `scopes` text COLLATE utf8mb4_unicode_ci,
   `revoked` tinyint(1) NOT NULL,
   `expires_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -264,15 +266,16 @@ CREATE TABLE `payments` (
   `payment_method` int(11) NOT NULL,
   `amount` int(11) NOT NULL,
   `description` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `status` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `payments`
 --
 
-INSERT INTO `payments` (`id`, `enroll_id`, `payment_method`, `amount`, `description`, `created_at`) VALUES
-(1, 2, 0, 0, 'Over the counter', '2020-03-08 15:32:43');
+INSERT INTO `payments` (`id`, `enroll_id`, `payment_method`, `amount`, `description`, `status`, `created_at`) VALUES
+(1, 2, 0, 0, 'Over the counter', 1, '2020-03-10 15:02:03');
 
 -- --------------------------------------------------------
 
@@ -284,7 +287,7 @@ CREATE TABLE `rooms` (
   `id` int(11) NOT NULL,
   `title` varchar(225) NOT NULL,
   `description` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -308,7 +311,7 @@ CREATE TABLE `school_years` (
   `description` text NOT NULL,
   `online_enrollment` tinyint(4) NOT NULL,
   `token` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -334,7 +337,7 @@ CREATE TABLE `students` (
   `last_name` varchar(100) NOT NULL,
   `gender` varchar(100) NOT NULL,
   `birthday` varchar(100) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -356,7 +359,7 @@ CREATE TABLE `subjects` (
   `code` varchar(100) NOT NULL,
   `title` varchar(225) NOT NULL,
   `description` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -379,7 +382,7 @@ CREATE TABLE `teacher_assign` (
   `teacher_id` int(11) NOT NULL,
   `rooms` text NOT NULL,
   `subjects` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -387,7 +390,8 @@ CREATE TABLE `teacher_assign` (
 --
 
 INSERT INTO `teacher_assign` (`id`, `schoolYear_id`, `teacher_id`, `rooms`, `subjects`, `created_at`) VALUES
-(2, 1, 2, '[\"1\"]', '[\"1\"]', '2020-02-27 16:39:21');
+(2, 1, 2, '[\"1\"]', '[\"1\"]', '2020-02-27 16:39:21'),
+(3, 3, 2, '[\"1\"]', '[\"2\"]', '2020-03-10 15:29:29');
 
 -- --------------------------------------------------------
 
@@ -620,7 +624,7 @@ ALTER TABLE `subjects`
 -- AUTO_INCREMENT for table `teacher_assign`
 --
 ALTER TABLE `teacher_assign`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `users`

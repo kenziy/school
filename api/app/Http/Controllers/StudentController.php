@@ -76,6 +76,7 @@ class StudentController extends Controller
                 'payment_method' => 0,
                 'amount'         => 0,
                 'description'    => 'Over the counter',
+                'status'         => 0,
                 'amount'         => 0
             ];
 
